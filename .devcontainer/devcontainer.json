@@ -2,18 +2,30 @@
   "capAdd": [
     "SYS_PTRACE"
   ],
+  "containerEnv": {
+    "ANONYMIZED_TELEMETRY": "false",
+    "DEBIAN_FRONTEND": "noninteractive",
+    "PIP_NO_CACHE_DIR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "STREAMLIT_BROWSER_GATHERUSAGESTATS": "false",
+    "UV_LINK_MODE": "copy"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
         "DavidAnson.vscode-markdownlint",
-        "EditorConfig.EditorConfig",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
         "Tyriar.sort-lines",
         "bradzacher.vscode-copy-filename",
-        "esbenp.prettier-vscode",
-        "foxundermoon.shell-format",
-        "ms-azuretools.vscode-docker",
+        "charliermarsh.ruff",
+        "docker.docker",
+        "ms-azuretools.vscode-containers",
+        "ms-python.isort",
+        "ms-python.pylint",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
         "streetsidesoftware.code-spell-checker",
-        "timonwong.shellcheck",
         "usernamehw.errorlens"
       ],
       "settings": {
@@ -28,12 +40,15 @@
         "explorer.confirmDelete": false,
         "extensions.ignoreRecommendations": true,
         "files.associations": {
-          "*.code-snippets": "jsonc"
+          ".env*": "dotenv"
         },
         "files.autoSave": "afterDelay",
         "files.eol": "auto",
         "files.exclude": {
           "**/.vscode": true
+        },
+        "github.copilot.enable": {
+          "dotenv": false
         },
         "remote.downloadExtensionsLocally": false,
         "search.exclude": {
@@ -47,10 +62,7 @@
       }
     }
   },
-  "image": "mcr.microsoft.com/devcontainers/base:debian",
-  "mounts": [
-    "source=${localWorkspaceFolder}/snippets,target=${containerWorkspaceFolder}/.vscode,type=bind,consistency=cached"
-  ],
+  "image": "mcr.microsoft.com/devcontainers/python",
   "postCreateCommand": "chmod +x ${containerWorkspaceFolder}/.devcontainer/postCreateScript.sh && ${containerWorkspaceFolder}/.devcontainer/postCreateScript.sh",
   "runArgs": [
     "--rm",
