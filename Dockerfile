@@ -48,4 +48,8 @@ EXPOSE 8501
 # ##########################################################################
 # Command to Run
 # ##########################################################################
-ENTRYPOINT ["streamlit", "run", "src/app.py", "--server.port=8501", "--server.address=0.0.0.0", "--browser.gatherUsageStats=false"]
+# For standard Python applications
+ENTRYPOINT [ "python" , "src/app.py" ]
+
+# For `streamlit` applications
+# ENTRYPOINT ["streamlit", "run", "src/app.py", "--server.port=8501", "--server.address=0.0.0.0", "--browser.gatherUsageStats=false"]
