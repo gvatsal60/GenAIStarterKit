@@ -1,3 +1,13 @@
+---
+title: GenAI Starter Kit
+sdk: docker
+python_version: 3.13
+app_port: 8501
+short_description: A lightweight, plug-and-play template for building generative AI apps with ease.
+license: apache-2.0
+---
+
+<!-- markdownlint-disable MD025 -->
 # ⚡️ GenAI Starter Kit
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/gvatsal60/GenAIStarterKit/blob/HEAD/LICENSE)
