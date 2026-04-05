@@ -24,7 +24,7 @@ SRC_DIR := src
 all: sync run
 
 sync:
-	@uv sync
+	@uv sync --no-cache
 run: sync
 	@uv run --directory $(SRC_DIR) streamlit run app.py --browser.gatherUsageStats false
 test: sync
