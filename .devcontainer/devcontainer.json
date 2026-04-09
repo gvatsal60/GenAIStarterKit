@@ -14,7 +14,6 @@
     "vscode": {
       "extensions": [
         "DavidAnson.vscode-markdownlint",
-        "GitHub.copilot-chat",
         "Tyriar.sort-lines",
         "bradzacher.vscode-copy-filename",
         "charliermarsh.ruff",
