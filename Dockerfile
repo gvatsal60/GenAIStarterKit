@@ -14,10 +14,16 @@
 # ##########################################################################
 # Base Image
 # ##########################################################################
-FROM python:3.14-alpine
+FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
 
-RUN addgroup -S nonroot \
-  && adduser -S nonroot -G nonroot
+# Add non-root user
+RUN addgroup --system nonroot \
+  && adduser --system --ingroup nonroot nonroot \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+# Switch to non-root user
+USER nonroot
 
 # ##########################################################################
 # Maintainer
@@ -32,12 +38,13 @@ WORKDIR /app
 # ##########################################################################
 # Copy Files
 # ##########################################################################
-COPY src/ ./src/
-COPY requirements.txt ./
+# Copy dependency files first for better caching
+COPY pyproject.toml ./
 
-RUN pip3 install --no-cache-dir -r requirements.txt
+# Install dependencies into a local folder
+RUN uv sync --no-cache
 
-USER nonroot
+COPY src/ ./
 
 # ##########################################################################
 # Expose Port
@@ -47,8 +54,9 @@ EXPOSE 8501
 # ##########################################################################
 # Command to Run
 # ##########################################################################
+
 # For standard Python applications
-ENTRYPOINT [ "python" , "src/app.py" ]
+ENTRYPOINT [ "uv", "run", "app.py" ]
 
 # For `streamlit` applications
 # ENTRYPOINT ["streamlit", "run", "src/app.py", "--server.port=8501", "--server.address=0.0.0.0", "--browser.gatherUsageStats=false"]
