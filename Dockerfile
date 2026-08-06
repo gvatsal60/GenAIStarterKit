@@ -14,10 +14,16 @@
 # ##########################################################################
 # Base Image
 # ##########################################################################
-FROM python:3.14-alpine
+FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
 
-RUN addgroup -S nonroot \
-  && adduser -S nonroot -G nonroot
+# Add non-root user
+RUN addgroup --system nonroot \
+  && adduser --system --ingroup nonroot nonroot \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+# Switch to non-root user
+USER nonroot
 
 # ##########################################################################
 # Maintainer
@@ -40,8 +46,6 @@ RUN uv sync --no-cache
 
 COPY src/ ./
 
-USER nonroot
-
 # ##########################################################################
 # Expose Port
 # ##########################################################################
@@ -50,6 +54,7 @@ EXPOSE 8501
 # ##########################################################################
 # Command to Run
 # ##########################################################################
+
 # For standard Python applications
 ENTRYPOINT [ "uv", "run", "app.py" ]
 
