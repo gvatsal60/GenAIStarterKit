@@ -32,10 +32,13 @@ WORKDIR /app
 # ##########################################################################
 # Copy Files
 # ##########################################################################
-COPY src/ ./src/
-COPY requirements.txt ./
+# Copy dependency files first for better caching
+COPY pyproject.toml ./
 
-RUN pip3 install --no-cache-dir -r requirements.txt
+# Install dependencies into a local folder
+RUN uv sync --no-cache
+
+COPY src/ ./
 
 USER nonroot
 
@@ -48,7 +51,7 @@ EXPOSE 8501
 # Command to Run
 # ##########################################################################
 # For standard Python applications
-ENTRYPOINT [ "python" , "src/app.py" ]
+ENTRYPOINT [ "uv", "run", "app.py" ]
 
 # For `streamlit` applications
 # ENTRYPOINT ["streamlit", "run", "src/app.py", "--server.port=8501", "--server.address=0.0.0.0", "--browser.gatherUsageStats=false"]
