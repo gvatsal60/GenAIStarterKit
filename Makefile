@@ -11,11 +11,11 @@ help: ## Show this help message
 all: sync run ## Install dependencies and run the application
 
 sync: ## Install/update dependencies
-	@uv sync --no-cache
+	@uv sync --no-cache --quiet
 run: sync ## Run the Streamlit application
 	@uv run --directory $(SRC_DIR) streamlit run app.py --browser.gatherUsageStats false
 test: sync ## Run tests
 	@echo "No tests available currently."
 # 	@uv test
 clean: ## Clean up dependencies and artifacts
-	@uv clean
+	@uv clean --quiet --force
